@@ -1,66 +1,72 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import shortid from 'shortid';
 import { Forma, LabelPhone, InputPhone, Button } from './ContactForm.styled';
 
-export class ContactForm extends Component {
-  state = {
-    id: '',
-    name: '',
-    number: '',
+function ContactForm({ addUser }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const nameInputId = shortid.generate();
+  const numberInputId = shortid.generate();
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
 
-  nameInputId = shortid.generate();
-  numberInputId = shortid.generate();
-
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.addUser({ ...this.state });
-    this.reset();
+    addUser({ name, number });
+    reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-
-    return (
-      <Forma onSubmit={this.handleSubmit}>
-        <LabelPhone htmlFor={this.nameInputId}>
-          Name:
-          <InputPhone
-            name="name"
-            value={name}
-            type="text"
-            id={this.nameInputId}
-            onChange={this.handleChange}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </LabelPhone>
-        <LabelPhone htmlFor={this.numberInputId}>
-          Number:
-          <InputPhone
-            name="number"
-            value={number}
-            type="tel"
-            id={this.numberInputIdn}
-            onChange={this.handleChange}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </LabelPhone>
-        <Button type="submit"> Add contact</Button>
-      </Forma>
-    );
-  }
+  return (
+    <Forma onSubmit={handleSubmit}>
+      <LabelPhone htmlFor={nameInputId}>
+        Name:
+        <InputPhone
+          name="name"
+          value={name}
+          type="text"
+          id={nameInputId}
+          onChange={handleChange}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+        />
+      </LabelPhone>
+      <LabelPhone htmlFor={numberInputId}>
+        Number:
+        <InputPhone
+          name="number"
+          value={number}
+          type="tel"
+          id={numberInputId}
+          onChange={handleChange}
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+        />
+      </LabelPhone>
+      <Button type="submit"> Add contact</Button>
+    </Forma>
+  );
 }
+
+export default ContactForm;
