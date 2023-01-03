@@ -34,7 +34,7 @@ function ContactForm({ addUser }) {
 
   return (
     <Forma onSubmit={handleSubmit}>
-      <LabelPhone>
+      <LabelPhone htmlFor="name">
         Name:
         <InputPhone
           name="name"
@@ -47,7 +47,7 @@ function ContactForm({ addUser }) {
           required
         />
       </LabelPhone>
-      <LabelPhone>
+      <LabelPhone htmlFor="number">
         Number:
         <InputPhone
           name="number"
