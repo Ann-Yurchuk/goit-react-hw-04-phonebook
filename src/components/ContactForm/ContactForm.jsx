@@ -1,13 +1,9 @@
 import { useState } from 'react';
-import shortid from 'shortid';
 import { Forma, LabelPhone, InputPhone, Button } from './ContactForm.styled';
 
 function ContactForm({ addUser }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  const nameInputId = shortid.generate();
-  const numberInputId = shortid.generate();
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -38,26 +34,26 @@ function ContactForm({ addUser }) {
 
   return (
     <Forma onSubmit={handleSubmit}>
-      <LabelPhone htmlFor={nameInputId}>
+      <LabelPhone>
         Name:
         <InputPhone
           name="name"
           value={name}
           type="text"
-          id={nameInputId}
+          id={name}
           onChange={handleChange}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />
       </LabelPhone>
-      <LabelPhone htmlFor={numberInputId}>
+      <LabelPhone>
         Number:
         <InputPhone
           name="number"
           value={number}
           type="tel"
-          id={numberInputId}
+          id={number}
           onChange={handleChange}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
